@@ -1,8 +1,12 @@
 {
-  "name": "vue-tiny-t",
+  "name": "vue-tiny-i18n",
   "version": "1.0.0",
   "description": "A lightweight, zero dependency and customizable translation plugin for Vue",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jellehak/vue-tiny-i18n"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx uglify-es index.js > index.min.js"
