@@ -1,11 +1,11 @@
 {
-  "name": "vue-tiny-i18n",
+  "name": "vue-tiny-trans",
   "version": "1.0.0",
   "description": "A lightweight, zero dependency and customizable translation plugin for Vue",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jellehak/vue-tiny-i18n"
+    "url": "git+https://github.com/jellehak/vue-tiny-trans"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

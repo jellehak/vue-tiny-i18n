@@ -4,7 +4,7 @@ A lightweight, zero dependency and customizable translation plugin for Vue. It i
 # Installation
 ## Basic
 ```js
-import vueTinyI18n from "vue-tiny-i18n";
+import vueTinyTrans from "vue-tiny-trans";
 // import messages from "@/locales";
 const messages = [
   en: {
@@ -15,7 +15,7 @@ const messages = [
   }
 ]
 
-Vue.use(vueTinyI18n, {
+Vue.use(vueTinyTrans, {
   locale: 'en', // set locale
   fallbackLocale: 'en',
   messages
@@ -24,7 +24,7 @@ Vue.use(vueTinyI18n, {
 
 ## All options
 ```js
-Vue.use(vueTinyI18n, {
+Vue.use(vueTinyTrans, {
   locale: 'en',
   fallbackLocale: 'en',
   countTag: `{count}`,
