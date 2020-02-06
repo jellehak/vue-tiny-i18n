@@ -1,9 +1,9 @@
-# Lightweight translations for vue
-
+# Intro
+A lightweight, zero dependency and customizable translation plugin for Vue. Which is quite compatible to plugins like vue-i18n or vue-i18next.
 
 # How to
 ```js
-import vueTranslations from "@/plugins/vue-translations";
+import vueTinyT from "vue-tiny-t";
 // import messages from "@/locales";
 const messages = [
   en: {
@@ -14,22 +14,50 @@ const messages = [
   }
 ]
 
-Vue.use(vueTranslations, {
+Vue.use(vueTinyT, {
   locale: 'en', // set locale
   fallbackLocale: 'en',
   messages
 });
 ```
 
+# How to ( advanced )
+```js
+Vue.use(vueTinyT, {
+  locale: 'en',
+  fallbackLocale: 'en',
+  countTag: `{count}`,
+  countSeperator: '|',
+  messages: {},
+  fallbackTranslation: '__NO_TRANSLATION__',
+
+  // Add loggers, push keys to API, ...
+  onMissingKey (key, { messages, locale, fallbackLocale }) {
+    console.log(`Missing key for language "${locale}": ${key}`)
+    return messages[fallbackLocale][key]
+  },
+  getKey (key, { messages = {}, locale }) {
+    const translation = messages[locale][key]
+    return translation
+  }
+});
+```
+
+# Mount to different key
+```js
+Vue.use(vueTinyT, {
+  locale: 'en', // set locale
+  fallbackLocale: 'en',
+  messages
+}, "$trans");
+
+```
 # Usage
 ```js
 $t("Hello World")
 
-$tc("FormattedNumberOfLastDays", 3)
+$tc("Last hour | Last {count} hours", 3)
 ```
-
-# Scanner
-TODO
 
 
 # Language switch
@@ -50,7 +78,7 @@ export default {
 <template>
   <div>
     <v-menu offset-y>
-      <template v-slot:activator="{ on }">
+      <template #activator="{ on }">
         <v-btn
           text
           v-on="on"

@@ -4,7 +4,18 @@ const defaultOptions = {
   fallbackLocale: 'en',
   countTag: `{count}`,
   countSeperator: '|',
-  messages: {}
+  messages: {},
+  fallbackTranslation: '__NO_TRANSLATION__',
+
+  // Add loggers, push keys to API, ...
+  onMissingKey (key, { messages, locale, fallbackLocale }) {
+    console.log(`Missing key for language "${locale}": ${key}`)
+    return messages[fallbackLocale][key]
+  },
+  getKey (key, { messages = {}, locale }) {
+    const translation = messages[locale][key]
+    return translation
+  }
 }
 
 /** Simple i18n plugin */
@@ -12,49 +23,50 @@ const defaultOptions = {
 export default {
   // The install method will be called with the Vue constructor as
   // the first argument, along with possible options
-  install (Vue, options = defaultOptions) {
+  install (Vue, _options = defaultOptions, vueProp = '$i18n') {
     // console.log(options);
 
     // Set config
-    const $i18n = {
+    const options = {
       ...defaultOptions,
+
+      // Detect language from messages
+      languages: Object.keys(_options.messages),
       // Merge in options
-      ...options
+      ..._options
     }
 
-    // Detect language from messages
-    $i18n.languages = Object.keys(options.messages)
-
     // Bind
-    Vue.prototype.$i18n = Vue.observable($i18n)
+    Vue.prototype[vueProp] = Vue.observable(options)
+
+    // Get hookable methods
+    const { getKey } = options
 
     Vue.mixin({
       computed: {
         $t () {
           return function (key) {
-            const { messages } = options
-            const { locale } = this.$i18n
-            return messages[locale][key]
+            return getKey(key, options) ||
+              options.onMissingKey(key, options) ||
+              options.fallbackTranslation
           }
         },
 
         $tc () {
           return function (key, mixed = { count: 1 }) {
-            const count = mixed.count ? mixed.count : mixed
+            const translation = getKey(key, options) ||
+              options.onMissingKey(key, options) ||
+              options.fallbackTranslation
 
             // Settings
+            const count = mixed.count ? mixed.count : mixed
             const { countTag, countSeperator } = options
 
-            const { messages } = options
-            const { locale } = this.$i18n
-            const translation = messages[locale][key]
-            const resp = translation.split(countSeperator)
-
-            // Translation not set
-            if (!resp.length) return key
+            const parts = translation.split(countSeperator)
 
             // Replace count tag
-            return resp[count > 1 ? 1 : 0].replace(countTag, count)
+            const part = parts[count > 1 ? 1 : 0] || options.fallbackTranslation
+            return part.replace(countTag, count)
           }
         }
       }
