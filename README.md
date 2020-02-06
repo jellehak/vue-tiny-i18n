@@ -1,7 +1,8 @@
 # Intro
 A lightweight, zero dependency and customizable translation plugin for Vue. Which is quite compatible to plugins like vue-i18n or vue-i18next.
 
-# How to
+# Installation
+## Basic
 ```js
 import vueTinyT from "vue-tiny-t";
 // import messages from "@/locales";
@@ -21,7 +22,7 @@ Vue.use(vueTinyT, {
 });
 ```
 
-# How to ( advanced )
+## All options
 ```js
 Vue.use(vueTinyT, {
   locale: 'en',
@@ -43,7 +44,7 @@ Vue.use(vueTinyT, {
 });
 ```
 
-# Mount to different key
+## Mount to different key
 ```js
 Vue.use(vueTinyT, {
   locale: 'en', // set locale
@@ -58,7 +59,6 @@ $t("Hello World")
 
 $tc("Last hour | Last {count} hours", 3)
 ```
-
 
 # Language switch
 ```html
@@ -76,29 +76,11 @@ export default {
 </script>
 
 <template>
-  <div>
-    <v-menu offset-y>
-      <template #activator="{ on }">
-        <v-btn
-          text
-          v-on="on"
-        >
-          {{$i18n.locale}
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item
-          v-for="(item, index) in languages"
-          :key="index"
-          @click="click(item)"
-        >
-          <v-list-item-title>
-            {{item}
-          </v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-  </div>
+  <select v-model="$i18n.locale">
+      <option v-for="(lang, i) in languages" :key="i" :value="lang">
+        {{ lang }}
+      </option>
+    </select>
 </template>
 ```
 
