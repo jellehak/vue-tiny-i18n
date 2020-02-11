@@ -1,5 +1,5 @@
 # Intro
-A lightweight, zero dependency and customizable translation plugin for Vue. It is quite similar to plugins like vue-i18n or vue-i18next.
+A lightweight, zero dependency and customisable translation plugin for Vue. It is quite similar to plugins like vue-i18n or vue-i18next.
 
 # Installation
 ## Basic
