@@ -1,6 +1,6 @@
 {
   "name": "vue-tiny-trans",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lightweight, zero dependency and customizable translation plugin for Vue",
   "main": "index.js",
   "repository": {
@@ -12,6 +12,6 @@
     "build": "npx uglify-es index.js > index.min.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jelle",
   "license": "ISC"
 }

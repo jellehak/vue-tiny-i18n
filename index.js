@@ -12,7 +12,7 @@ const defaultOptions = {
     console.log(`Missing key for language "${locale}": ${key}`)
     return messages[fallbackLocale][key]
   },
-  getKey (key, { messages = {}, locale }) {
+  getKey (key, { messages = {}, locale, ns = 'common' }) {
     const translation = messages[locale][key]
     return translation
   }
@@ -45,22 +45,34 @@ export default {
     Vue.mixin({
       computed: {
         $t () {
-          return function (key) {
-            return getKey(key, options) ||
-              options.onMissingKey(key, options) ||
+          return function (key, settings = {
+            context: '',
+            count: 1
+          }) {
+            const combinedOptions = {
+              ...options,
+              ...settings
+            }
+            return getKey(key, combinedOptions) ||
+              options.onMissingKey(key, combinedOptions) ||
               options.fallbackTranslation
           }
         },
 
         $tc () {
-          return function (key, mixed = { count: 1 }) {
-            const translation = getKey(key, options) ||
-              options.onMissingKey(key, options) ||
+          return function (key, settings = { count: 1 }) {
+            const combinedOptions = {
+              ...options,
+              ...settings
+            }
+
+            const translation = getKey(key, combinedOptions) ||
+              options.onMissingKey(key, combinedOptions) ||
               options.fallbackTranslation
 
             // Settings
-            const count = mixed.count ? mixed.count : mixed
-            const { countTag, countSeperator } = options
+            const count = settings.count ? settings.count : settings
+            const { countTag, countSeperator } = combinedOptions
 
             const parts = translation.split(countSeperator)
 
