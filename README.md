@@ -51,8 +51,8 @@ Vue.use(vueTinyT, {
   fallbackLocale: 'en',
   messages
 }, "$trans");
-
 ```
+
 # Usage
 ```js
 $t("Hello World")
